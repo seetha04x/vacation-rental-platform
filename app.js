@@ -30,6 +30,9 @@ app.listen(3000, ()=>{
     console.log("listening to 3000");
 })
 
+mongoose.set("strictQuery", true);
+
+
 const store = MongoStore.create({
     mongoUrl:dburl,
     crypto:{
@@ -93,7 +96,10 @@ app.use("/", usersRouter);
 app.all(/.*/, (req,res,next)=>{
     next(new ExpressError(404, "Page Not Found"));
 });
-app.use((err, req, res, next)=>{
-    const {statusCode=500, message="Something went wrong"}=err;
-    res.render("error.ejs", {statusCode, message});
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message = "Something went wrong" } = err;
+  if (res.headersSent) {
+    return next(err);
+  }
+  res.status(statusCode).render("error.ejs", { statusCode, message });
 });
