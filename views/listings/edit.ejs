@@ -1,0 +1,58 @@
+<% layout("/layouts/boilerplate") %>
+<div class="row">
+    <div  class="col-6 offset-3">
+    <h4 class="mt-3">Edit  Details</h4>
+     <form action="http://localhost:3000/listings/<%=list.id%>?_method=PUT" method="post" novalidate class="needs-validation" enctype="multipart/form-data">
+        <div class="mb-3"><label for="title" class="form-label">Title</label>
+        <input type="text" name="title" value="<%=list.title%>" placeholder="title" id="" class="form-control mb-3" required>
+            <div class="valid-feedback">
+                Title looks good!
+            </div>
+    </div>
+
+    <div class="mb-3">
+        <p>Original Listing Image</p>
+        <img style="width:12rem;" src="<%=originalImg%>" alt="">
+    </div>
+        <div class="mb-3"><label for="image" class="form-label">Upload Image</label>
+        <input type="file" name="image" id="image" class="form-control mb-3" >
+        </div>
+        <div class="mb-3"><label for="description" class="form-label">Description</label>
+        <textarea name="description" placeholder="write the description" id="" class="form-control mb-3"><%=list.description%></textarea>
+       <div class="row">
+            <div class="col-md-3">
+                <label for="price" class="form-label">Price</label>
+                <input type="number" name="price" value="<%=list.price%>" placeholder="price" id="" class="form-control mb-3" required>
+                <div class="invalid-feedback">
+                    Please enter a valid price.
+                </div>
+            </div>
+            <div class="col-md-9">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" name="location" value="<%=list.location%>" placeholder="location" id="" class="form-control mb-3" required>
+                <div class="invalid-feedback">
+                    Please enter a valid location.
+                </div>
+        </div>
+        </div>
+        <div class="mb-3">
+            <label for="country" class="form-label">Country</label>
+        <input type="text" name="country" value="<%=list.country%>" placeholder="country" id="" class="form-control mb-3" required>
+            <div class="invalid-feedback">
+                Please enter a valid country.
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <button type="submit" class="btn add-btn">Submit</button>
+            </div>
+            <div class="col-sm-8">
+                <form action="http://localhost:3000/listings" method="get">
+                    <button type="submit" class="btn btn-dark">Back to Listings</button>
+                </form>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+    
