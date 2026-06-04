@@ -30,21 +30,18 @@ app.use(express.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
 
 
-async function main(){
-    await mongoose.connect(dbUrl);
-}
+const clientPromise = mongoose.connect(dbUrl)
+    .then(() => {
+        console.log("connected");
+        return mongoose.connection.getClient();
+    });
 
-main()
-.then(()=>{
-    console.log("connected");
-})
-.catch((err)=>{
-    console.log("error")
+clientPromise.catch((err)=>{
+    console.log("error", err);
 });
 
-
 const store = MongoStore.create({
-    mongoUrl:dbUrl,
+    clientPromise,
     crypto:{
         secret:process.env.SECRET || "thisshouldbealongsecurestring",
     },

@@ -67,7 +67,7 @@
   </div>
 </div>
   <div class="row">
-    <% if (all.length === 0) { %>
+    <% if (all.length === 0 || all.length === null) { %>
     <div class="col-12 text-center mt-4">
       <p class="text-muted"><%= message %></p>
     </div>
