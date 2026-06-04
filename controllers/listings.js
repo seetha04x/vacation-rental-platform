@@ -5,7 +5,7 @@ const axios = require("axios");
 //to display all listings 
 module.exports.index=async (req,res)=>{
     const all=await listing.find({});
-    if(all.length==0){
+    if(all.length===0){
       return res.render("./listings/index.ejs", {all, message:"No listings available yet."});
     }
     res.render("./listings/index.ejs", {all});
@@ -77,6 +77,10 @@ module.exports.newSubmit=async(req,res)=>{
 module.exports.editForm=async (req,res)=>{
     const {id}= req.params;
     const list= await listing.findById(id);
+     if (!list){
+        req.flash("error", "Listing not found!");
+        return res.redirect("/listings");
+    }
     let originalImg=list.image.url;
     originalImg=originalImg.replace("upload/", "upload/h_300,w_250/");
     res.render("./listings/edit.ejs", {list,originalImg} );

@@ -18,7 +18,9 @@ const usersRouter=require("./routes/user.js")
 const passport=require("passport");
 const LocalStrategy=require("passport-local");
 const user=require("./models/user.js");
-const dburl=process.env.ATLASDB_URL;
+const dbUrl=process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/majorproject";
+
+mongoose.set("strictQuery", false);
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", 'ejs');
@@ -29,7 +31,7 @@ app.use(methodOverride("_method"));
 
 
 async function main(){
-    await mongoose.connect(dburl);
+    await mongoose.connect(dbUrl);
 }
 
 main()
@@ -42,22 +44,22 @@ main()
 
 
 const store = MongoStore.create({
-    mongoUrl:dburl,
+    mongoUrl:dbUrl,
     crypto:{
-        secret:process.env.SECRET || "fallbacksecret",
+        secret:process.env.SECRET || "thisshouldbealongsecurestring",
     },
     touchAfter: 3600 * 24,//seconds
 });
 
-store.on("error",()=>{
-    console.log("Error in Mongo Session store",err);
+store.on("error",(err)=>{
+    console.log("Error in Mongo Session store", err);
 });
 
 const sessionOptions = {
     store,
-    secret: process.env.SECRET || "fallbacksecret",
+    secret: process.env.SECRET || "thisshouldbealongsecurestring",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 * 7,
@@ -92,14 +94,14 @@ app.all(/.*/, (req,res,next)=>{
     next(new ExpressError(404, "Page Not Found"));
 });
 app.use((err, req, res, next)=>{
+    if (res.headersSent) {
+        return next(err);
+    }
     const {statusCode=500, message="Something went wrong"}=err;
-    res.render("error.ejs", {statusCode, message});
+    res.status(statusCode).render("error.ejs", {statusCode, message});
 });
 
-if (require.main === module) {
-  app.listen(3000, () => {
-    console.log("Server is listening to port 3000");
-  });
-}
 
-module.exports = app;
+  app.listen(3000, ()=>{
+    console.log("listening to 3000");
+})

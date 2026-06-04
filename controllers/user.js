@@ -8,18 +8,18 @@ module.exports.signupForm= (req,res)=>{
 }
 
 //to post the new account
-module.exports.signupSubmit=async (req,res)=>{
+module.exports.signupSubmit=async (req,res,next)=>{
     try{
         let {username, email, password}=req.body;
-    const newUser=new user({username, email});
-   const regUser= await user.register(newUser, password);
-   req.login(regUser,(err)=>{
-    if(err){
-        return next(err);
-    }
-    req.flash("success", "Signed Up successfully!");
-    res.redirect("/listings");
-   })
+        const newUser=new user({username, email});
+        const regUser= await user.register(newUser, password);
+        req.login(regUser,(err)=>{
+            if(err){
+                return next(err);
+            }
+            req.flash("success", "Signed Up successfully!");
+            res.redirect("/listings");
+        })
     }catch(error){
         req.flash("error", error.message);
         res.redirect("/signup");
