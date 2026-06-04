@@ -27,6 +27,20 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
 
+
+async function main(){
+    await mongoose.connect(dburl);
+}
+
+main()
+.then(()=>{
+    console.log("connected");
+})
+.catch((err)=>{
+    console.log("error")
+});
+
+
 const store = MongoStore.create({
     mongoUrl:dburl,
     crypto:{
@@ -65,9 +79,9 @@ passport.serializeUser(user.serializeUser());
 passport.deserializeUser(user.deserializeUser());
 
 app.use((req,res,next)=>{
-    res.locals.success=req.flash("success") || [];
-    res.locals.error=req.flash("error") || [];
-    res.locals.currUser=req.user|| null;
+    res.locals.success=req.flash("success");
+    res.locals.error=req.flash("error");
+    res.locals.currUser=req.user;
     next();
 })
 app.use("/listings", listingsRouter);
@@ -82,18 +96,10 @@ app.use((err, req, res, next)=>{
     res.render("error.ejs", {statusCode, message});
 });
 
-async function main(){
-    await mongoose.connect(dburl);
+if (require.main === module) {
+  app.listen(3000, () => {
+    console.log("Server is listening to port 3000");
+  });
 }
 
-main()
-.then(()=>{
-  app.listen(3000, ()=>{
-    console.log("listening to 3000");
-})
-    console.log("connected");
-})
-.catch((err)=>{
-    console.log("error")
-})
-
+module.exports = app;
