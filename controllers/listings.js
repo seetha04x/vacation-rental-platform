@@ -1,6 +1,34 @@
 const listing=require("../models/listing.js");
-const fetch = require("node-fetch");
 const axios = require("axios");
+
+const DEFAULT_COORDINATES = [77.0, 9.96];
+
+async function geocodeLocation(location) {
+  try {
+    const geoRes = await axios.get(
+      "https://nominatim.openstreetmap.org/search",
+      {
+        params: {
+          format: "json",
+          q: location,
+        },
+        headers: {
+          "User-Agent": "AirBnb/1.0 (vrishchika2310@gmail.com)",
+        },
+        timeout: 10000,
+      }
+    );
+    if (geoRes.data && geoRes.data.length > 0) {
+      return [
+        parseFloat(geoRes.data[0].lon),
+        parseFloat(geoRes.data[0].lat),
+      ];
+    }
+  } catch (err) {
+    console.warn("Geocoding failed, using fallback coordinates:", err.message || err);
+  }
+  return DEFAULT_COORDINATES;
+}
 
 //to display all listings 
 module.exports.index=async (req,res)=>{
@@ -37,35 +65,12 @@ module.exports.newSubmit=async(req,res)=>{
       category = category.toLowerCase().trim();
     }
     const owner=req.user._id;
-    const geoRes = await axios.get(
-  "https://nominatim.openstreetmap.org/search",
-  {
-    params: {
-      format: "json",
-      q: location
-    },
-    headers: {
-      "User-Agent": "AirBnb/1.0 (vrishchika2310@gmail.com)"
-    }
-  }
-);
+    const coordinates = await geocodeLocation(location);
     const newListing= new listing({title, description, price, location, country,category, owner});
-     if (geoRes.data.length > 0) {
     newListing.geometry = {
       type: "Point",
-      coordinates: [
-        parseFloat(geoRes.data[0].lon),
-        parseFloat(geoRes.data[0].lat)
-      ]
+      coordinates,
     };
-  }
-  else {
-  // fallback coordinates (longitude, latitude)
-  newListing.geometry = {
-    type: "Point",
-    coordinates: [77.0, 9.96] // e.g. Udumbanchola, Kerala
-  };
-}
     if (req.file){
         newListing.image={
             url:req.file.path,
@@ -97,35 +102,12 @@ module.exports.editSubmit=async (req,res)=>{
     if (category) {
       category = category.toLowerCase().trim();
     }
-    const geoRes = await axios.get(
-  "https://nominatim.openstreetmap.org/search",
-  {
-    params: {
-      format: "json",
-      q: location
-    },
-    headers: {
-      "User-Agent": "AirBnb/1.0 (vrishchika2310@gmail.com)"
-    }
-  }
-);
+    const coordinates = await geocodeLocation(location);
     let newlisting=await listing.findByIdAndUpdate({_id:id}, {title,description, price, location, category, country});
-    if (geoRes.data.length > 0) {
-    newListing.geometry = {
+    newlisting.geometry = {
       type: "Point",
-      coordinates: [
-        parseFloat(geoRes.data[0].lon),
-        parseFloat(geoRes.data[0].lat)
-      ]
+      coordinates,
     };
-  }
-  else {
-  // fallback coordinates (longitude, latitude)
-  newListing.geometry = {
-    type: "Point",
-    coordinates: [77.0, 9.96] // e.g. Udumbanchola, Kerala
-  };
-}
     if (req.file){
         newlisting.image={
             url:req.file.path,
