@@ -20,19 +20,19 @@
      <div class="row">
        <%if(currUser && (currUser.username === list.owner.username)){%>
          <div class="col-sm-2">
-        <form action="http://localhost:3000/listings/<%=list.id%>/edit" method="get">
+        <form action="/listings/<%=list.id%>/edit" method="get">
         <button class="btn mt-3 add-btn" >Edit Details</button>
     </form> 
         </div>
         <div class="col-sm-2">  
-     <form action="http://localhost:3000/listings/<%=list.id%>?_method=DELETE" method="post">
+     <form action="/listings/<%=list.id%>?_method=DELETE" method="post">
         <button class="btn mt-3 btn-dark" >DELETE </button>
     </form> 
         </div> 
       <% }%>
     
         <div class="col-sm-2">
-     <form action="http://localhost:3000/listings" method="get">
+     <form action="/listings" method="get">
         <button type="submit" class="btn mt-3 mb-3 btn-dark">Back to Listings</button>
     </form>
         </div>
@@ -41,7 +41,7 @@
          <%if(currUser){%>
             <div class="col-sm-6">
             <h5>Leave a Review</h5>
-            <form action="http://localhost:3000/listings/<%=list.id%>/reviews" method="post" novalidate class="needs-validation">
+            <form action="/listings/<%=list.id%>/reviews" method="post" novalidate class="needs-validation">
         
                 <label for="rating" class="form-label">Rating</label>
                 <fieldset class="starability-slot">
