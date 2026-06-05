@@ -2,7 +2,7 @@
 <div class="row">
     <div  class="col-6 offset-3">
     <h4 class="mt-3">Edit  Details</h4>
-     <form action="http://localhost:3000/listings/<%=list.id%>?_method=PUT" method="post" novalidate class="needs-validation" enctype="multipart/form-data">
+     <form action="/listings/<%=list.id%>?_method=PUT" method="post" novalidate class="needs-validation" enctype="multipart/form-data">
         <div class="mb-3"><label for="title" class="form-label">Title</label>
         <input type="text" name="title" value="<%=list.title%>" placeholder="title" id="" class="form-control mb-3" required>
             <div class="valid-feedback">
@@ -47,7 +47,7 @@
                 <button type="submit" class="btn add-btn">Submit</button>
             </div>
             <div class="col-sm-8">
-                <form action="http://localhost:3000/listings" method="get">
+                <form action="/listings" method="get">
                     <button type="submit" class="btn btn-dark">Back to Listings</button>
                 </form>
             </div>
