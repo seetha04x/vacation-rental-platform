@@ -18,7 +18,7 @@ const usersRouter=require("./routes/user.js")
 const passport=require("passport");
 const LocalStrategy=require("passport-local");
 const user=require("./models/user.js");
-const dbUrl=process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/majorproject";
+const dbUrl = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/airbnb";
 
 mongoose.set("strictQuery", false);
 
@@ -44,8 +44,8 @@ main()
 
 
 const store = MongoStore.create({
-    mongoUrl:dbUrl,
-    touchAfter: 3600 * 24,//seconds
+  mongoUrl: dbUrl,
+  touchAfter: 24 * 3600,
 });
 
 store.on("error",(err)=>{
@@ -78,9 +78,9 @@ passport.serializeUser(user.serializeUser());
 passport.deserializeUser(user.deserializeUser());
 
 app.use((req,res,next)=>{
-    res.locals.success=req.flash("success");
-    res.locals.error=req.flash("error");
-    res.locals.currUser=req.user;
+    res.locals.success=req.flash("success") || [];
+    res.locals.error=req.flash("error") || [];
+    res.locals.currUser=req.user || null;
     next();
 })
 app.use("/listings", listingsRouter);

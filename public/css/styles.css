@@ -150,6 +150,8 @@ min-height: 100vh;
 }
 .filter p{
     font-size:0.8rem;
+    white-space: nowrap;  
+  text-align: center;
 }
 .filters::-webkit-scrollbar {
   display: none;

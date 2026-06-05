@@ -32,6 +32,10 @@ module.exports.show=async (req,res)=>{
 //to post newly created listing
 module.exports.newSubmit=async(req,res)=>{
     const {title,description, price, location, country}=req.body;
+    let category = req.body.category;
+    if (category) {
+      category = category.toLowerCase().trim();
+    }
     const owner=req.user._id;
     const geoRes = await axios.get(
   "https://nominatim.openstreetmap.org/search",
@@ -45,7 +49,7 @@ module.exports.newSubmit=async(req,res)=>{
     }
   }
 );
-    const newListing= new listing({title, description, price, location, country, owner});
+    const newListing= new listing({title, description, price, location, country,category, owner});
      if (geoRes.data.length > 0) {
     newListing.geometry = {
       type: "Point",
@@ -89,8 +93,39 @@ module.exports.editForm=async (req,res)=>{
 //to post the edits
 module.exports.editSubmit=async (req,res)=>{
     const {id}= req.params;
-    const {title,description, price, location, country}=req.body;
-    let newlisting=await listing.findByIdAndUpdate({_id:id}, {title,description, price, location, country});
+    const {title,description, price, location, category, country}=req.body;
+    if (category) {
+      category = category.toLowerCase().trim();
+    }
+    const geoRes = await axios.get(
+  "https://nominatim.openstreetmap.org/search",
+  {
+    params: {
+      format: "json",
+      q: location
+    },
+    headers: {
+      "User-Agent": "AirBnb/1.0 (vrishchika2310@gmail.com)"
+    }
+  }
+);
+    let newlisting=await listing.findByIdAndUpdate({_id:id}, {title,description, price, location, category, country});
+    if (geoRes.data.length > 0) {
+    newListing.geometry = {
+      type: "Point",
+      coordinates: [
+        parseFloat(geoRes.data[0].lon),
+        parseFloat(geoRes.data[0].lat)
+      ]
+    };
+  }
+  else {
+  // fallback coordinates (longitude, latitude)
+  newListing.geometry = {
+    type: "Point",
+    coordinates: [77.0, 9.96] // e.g. Udumbanchola, Kerala
+  };
+}
     if (req.file){
         newlisting.image={
             url:req.file.path,
@@ -122,6 +157,19 @@ module.exports.category=async (req,res)=>{
     return res.render("./listings/index.ejs", {all, message:"No listings available in this category yet."});
   }
   res.render("./listings/index.ejs", {all});
+}
+module.exports.search=async (req,res)=>{
+  let query=req.query.place;
+  let all;
+  if (!query || query.trim()===""){
+    all=await listing.find({});
+  }else{
+    all=await listing.find({$or:[{location:{$regex:query,$options:"i"}},{country:{$regex:query,$options:"i"}}]});
+  }
+  if (all.length==0){
+    return res.render("./listings/index.ejs", {all, message:"No listings available in this category yet."});
+  }
+  res.render("./listings/index.ejs", {all}); 
 }
 
 

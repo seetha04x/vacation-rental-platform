@@ -34,5 +34,6 @@ router.route("/:id")
 
 router.get("/category/:category", wrapAsync(listingController.category));
 
+
 module.exports=router;
 
