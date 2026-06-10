@@ -1,4 +1,4 @@
-if (process.env.NODE_ENV!="production"){
+﻿if (process.env.NODE_ENV!="production"){
     require("dotenv").config();
 }
 const express=require("express");
@@ -14,11 +14,11 @@ const MongoStore=require("connect-mongo");
 const listingsRouter=require("./routes/listing.js"); 
 const reviewsRouter=require("./routes/review.js");
 const usersRouter=require("./routes/user.js")
-
 const passport=require("passport");
 const LocalStrategy=require("passport-local");
 const user=require("./models/user.js");
 const dbUrl = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/airbnb";
+// const dbUrl="mongodb+srv://seetha04x:Vrishchika%402310@cluster0.kfvsdqa.mongodb.net/airbnb?retryWrites=true&w=majority";
 
 mongoose.set("strictQuery", false);
 
@@ -39,7 +39,7 @@ main()
     console.log("connected");
 })
 .catch((err)=>{
-    console.log("error")
+    console.log(" mongooose error: ", err)
 });
 
 

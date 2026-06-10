@@ -98,7 +98,8 @@ module.exports.editForm=async (req,res)=>{
 //to post the edits
 module.exports.editSubmit=async (req,res)=>{
     const {id}= req.params;
-    const {title,description, price, location, category, country}=req.body;
+    const {title,description, price, location, country}=req.body;
+    let {category}=req.body;
     if (category) {
       category = category.toLowerCase().trim();
     }

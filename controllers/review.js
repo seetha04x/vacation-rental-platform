@@ -7,7 +7,6 @@ module.exports.reviewSubmit=async (req,res)=>{
     const list=await listing.findById(id);
     const {comment, rating}=req.body;
     const owner=req.user._id;
-    console.log(owner);
     let newReview = new review({comment, rating, owner });
     await newReview.save();
     list.reviews.push(newReview);

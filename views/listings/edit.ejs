@@ -19,6 +19,30 @@
         </div>
         <div class="mb-3"><label for="description" class="form-label">Description</label>
         <textarea name="description" placeholder="write the description" id="" class="form-control mb-3"><%=list.description%></textarea>
+
+              <div class="mb-3">
+  <label for="category" class="form-label">Category</label>
+  <select name="category" id="category"  class="form-control"  required>
+    <option value="">-- Select a Category --</option>
+    <option value="camping">Camping</option>
+    <option value="iconic cities">Iconic Cities</option>
+    <option value="farms">Farms</option>
+    <option value="urban">Urban</option>
+    <option value="mountains">Mountains</option>
+    <option value="beach">Beach</option>
+    <option value="pools">Pools</option>
+    <option value="retreat">Retreat</option>
+    <option value="sky view">Sky View</option>
+    <option value="castles">Castles</option>
+    <option value="arctic">Arctic</option>
+    <option value="lake">Lake</option>
+    <option value="desert">Desert</option>
+  </select>
+  <div class="invalid-feedback">
+    Please select a category.
+  </div>
+</div>
+
        <div class="row">
             <div class="col-md-3">
                 <label for="price" class="form-label">Price</label>
