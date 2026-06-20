@@ -1,13 +1,18 @@
+if (process.env.NODE_ENV!="production"){
+    require("dotenv").config({ path: "../.env" });
+}
 const mongoose=require("mongoose");
 const indata=require("./data.js");
 const Listing=require("../models/listing.js");
-
+const dbUrl = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/airbnb";
+console.log("dbUrl:", dbUrl);
 async function main(){
-    await mongoose.connect("mongodb://127.0.0.1:27017/airbnb")
+    await mongoose.connect(dbUrl)
 }
 main()
 .then(()=>{
     console.log("connect to DB");
+    return initDB();
 })
 .catch((err)=>{
     console.log("error");
@@ -34,4 +39,3 @@ async function initDB(){
     );
     console.log("geomtery initialized");
 }
-initDB();

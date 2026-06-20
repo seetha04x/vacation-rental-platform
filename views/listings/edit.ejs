@@ -22,22 +22,23 @@
 
               <div class="mb-3">
   <label for="category" class="form-label">Category</label>
-  <select name="category" id="category"  class="form-control"  required>
-    <option value="">-- Select a Category --</option>
-    <option value="camping">Camping</option>
-    <option value="iconic cities">Iconic Cities</option>
-    <option value="farms">Farms</option>
-    <option value="urban">Urban</option>
-    <option value="mountains">Mountains</option>
-    <option value="beach">Beach</option>
-    <option value="pools">Pools</option>
-    <option value="retreat">Retreat</option>
-    <option value="sky view">Sky View</option>
-    <option value="castles">Castles</option>
-    <option value="arctic">Arctic</option>
-    <option value="lake">Lake</option>
-    <option value="desert">Desert</option>
-  </select>
+  <select name="category" id="category" class="form-control" required>
+  <option value="">-- Select a Category --</option>
+  <option value="camping" <%= list.category === "camping" ? "selected" : "" %>>Camping</option>
+  <option value="iconic cities" <%= list.category === "iconic cities" ? "selected" : "" %>>Iconic Cities</option>
+  <option value="farms" <%= list.category === "farms" ? "selected" : "" %>>Farms</option>
+  <option value="urban" <%= list.category === "urban" ? "selected" : "" %>>Urban</option>
+  <option value="mountains" <%= list.category === "mountains" ? "selected" : "" %>>Mountains</option>
+  <option value="beach" <%= list.category === "beach" ? "selected" : "" %>>Beach</option>
+  <option value="pools" <%= list.category === "pools" ? "selected" : "" %>>Pools</option>
+  <option value="retreat" <%= list.category === "retreat" ? "selected" : "" %>>Retreat</option>
+  <option value="sky view" <%= list.category === "sky view" ? "selected" : "" %>>Sky View</option>
+  <option value="castles" <%= list.category === "castles" ? "selected" : "" %>>Castles</option>
+  <option value="arctic" <%= list.category === "arctic" ? "selected" : "" %>>Arctic</option>
+  <option value="lake" <%= list.category === "lake" ? "selected" : "" %>>Lake</option>
+  <option value="desert" <%= list.category === "desert" ? "selected" : "" %>>Desert</option>
+</select>
+
   <div class="invalid-feedback">
     Please select a category.
   </div>

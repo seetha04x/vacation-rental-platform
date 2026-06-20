@@ -18,7 +18,6 @@ const passport=require("passport");
 const LocalStrategy=require("passport-local");
 const user=require("./models/user.js");
 const dbUrl = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/airbnb";
-// const dbUrl="mongodb+srv://seetha04x:Vrishchika%402310@cluster0.kfvsdqa.mongodb.net/airbnb?retryWrites=true&w=majority";
 
 mongoose.set("strictQuery", false);
 
@@ -95,7 +94,9 @@ app.use((err, req, res, next)=>{
         return next(err);
     }
     const {statusCode=500, message="Something went wrong"}=err;
-    res.status(statusCode).render("error.ejs", {statusCode, message});
+    res.locals.statusCode = statusCode;
+    res.locals.message = message;
+    res.status(statusCode).render("error.ejs");
 });
 
 
