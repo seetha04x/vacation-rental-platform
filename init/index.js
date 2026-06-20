@@ -20,7 +20,7 @@ main()
 async function initDB(){
    await Listing.deleteMany({});
    indata.data = indata.data.map(el => 
-    ({ ...el, owner: "69de60ba5320ff868722a277"})
+    ({ ...el, owner: "6a2982f3b77ed0eb46248197"})
 );
 
     await Listing.insertMany(indata.data);

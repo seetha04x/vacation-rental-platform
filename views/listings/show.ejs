@@ -18,7 +18,7 @@
         </div>
     </div>    
      <div class="row">
-       <%if(currUser && (currUser.username === list.owner.username)){%>
+       <%if(currUser && list.owner && (currUser.username === list.owner.username)){%>
          <div class="col-sm-2">
         <form action="/listings/<%=list.id%>/edit" method="get">
         <button class="btn mt-3 add-btn" >Edit Details</button>
