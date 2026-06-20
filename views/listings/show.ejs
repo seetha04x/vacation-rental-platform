@@ -6,7 +6,7 @@
         <img src="<%=list.image.url%>" class="card-image-top mb-1" style="height: 30vh;">
         <div class="card-body">
             <div class="card-text">
-<p>Owned by <i><%=list.owner.username%></i></p></div>
+<p>Owned by <i><% if(list.owner) { %><%=list.owner.username%><% } else { %>Unknown<% } %></i></p></div>
    <div class="card-text">
      <p><%=list.description%></p>
     <p>$<%=list.price.toLocaleString('en-IN')%></p>
