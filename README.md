@@ -17,11 +17,10 @@ This platform allows users to rent properties for short- and long-term homestays
 
 ## 🛠️ Tech Stack
 - **Backend**: Node.js, Express.js
-- **Database**: MongoDB (Atlas or local)
+- **Database**: MongoDB Atlas
 - **Architecture**: MVC (Model–View–Controller)
-- **Authentication**: Passport.js / JWT
-- **Templating**: EJS / Handlebars (optional)
-- **Deployment**: Render / Vercel / Heroku
-
+- **Authentication**: Passport.js
+- **Templating**: EJS 
+- **Deployment**: Render
 ---
 
