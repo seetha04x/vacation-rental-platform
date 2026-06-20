@@ -24,3 +24,7 @@ This platform allows users to rent properties for short- and long-term homestays
 - **Deployment**: Render
 ---
 
+## 🔗 Project Links
+- [GitHub Repository](https://github.com/seetha04x/vacation-rental-platform)
+- [Live Demo](https://vacation-rental-platform-pcss.onrender.com/listings)
+
